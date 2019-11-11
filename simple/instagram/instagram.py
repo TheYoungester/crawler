@@ -16,11 +16,16 @@ from pyquery import PyQuery as pq
 import urllib
 import urllib.parse
 import os
-
+import pymysql
+# mysql connection
+conn = pymysql.connect("39.105.207.51", "root", "123456", "crawler")
+cursor = conn.cursor()
 # tags which to search
 tags = ['手账', '手掌', '收账', '手帳', 'bulletjournal', 'bulletjournals', 'brushinglettering']
 # base query url
 uri_ins = 'https://www.instagram.com/explore/tags/{0}/?__a=1'
+
+# 图片详情 https://www.instagram.com/graphql/query/?query_hash=fead941d698dc1160a298ba7bec277ac&variables=%7B%22shortcode%22%3A%22B1icOBshkkN%22%2C%22child_comment_count%22%3A3%2C%22fetch_comment_count%22%3A40%2C%22parent_comment_count%22%3A24%2C%22has_threaded_comments%22%3Atrue%7D
 # the dir to save download images
 baseDir = 'C:/Users/Administrator/Desktop/crawler/ins'
 headers = {
@@ -87,6 +92,9 @@ def parseResourceJson(resourceJson):
         imageName = str(id) + '#' + str(eddgeId) + '#' + str(edge_liked_by['count']) + '#' + str(
             edge_hashtag_to_media['count'])  # 图片名称
         imageLists.append({'tagName': name, 'display_url': display_url, 'imageName': imageName})
+        # insert into mysql
+        cursor.execute()
+
     return downloadImages(imageLists)
 
 
